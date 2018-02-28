@@ -1,14 +1,11 @@
 package control;
 
-import model.DummyLocalizer;
+
 import model.HMMLocalizer;
 import view.RobotLocalizationViewer;
 
 public class Main {
-	/*
-	 * build your own if you like, this is just an example of how to start the viewer
-	 * ...
-	 */
+
 	
 	public static void main( String[] args) {
 		
@@ -16,14 +13,17 @@ public class Main {
 		 * generate you own localiser / estimator wrapper here to plug it into the 
 		 * graphics class.
 		 */
-		HMMLocalizer l = new HMMLocalizer( 4, 4);
+		HMMLocalizer l = new HMMLocalizer( 8,8);
 		/*for(int i =0;i<100;i++) {
 			l.update();	
 		}
 		System.out.println(l.getCurrentTruePosition()[0]);
 		System.out.println(l.getCurrentTruePosition()[1]);
 		*/
-		l.initiateTransitionMatrix();
+//		l.sensorData(3,0);
+		//l.initiateTransitionMatrix();
+		//l.update();
+		//l.update();
 		RobotLocalizationViewer viewer = new RobotLocalizationViewer( l);
 
 		/*
