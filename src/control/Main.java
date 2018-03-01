@@ -13,7 +13,7 @@ public class Main {
 		 * generate you own localiser / estimator wrapper here to plug it into the 
 		 * graphics class.
 		 */
-		HMMLocalizer l = new HMMLocalizer( 4,4);
+		HMMLocalizer l = new HMMLocalizer( 8,8);
 		/*for(int i =0;i<100;i++) {
 			l.update();	
 		}
