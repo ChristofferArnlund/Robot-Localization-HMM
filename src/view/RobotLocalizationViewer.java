@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
@@ -22,6 +23,9 @@ public class RobotLocalizationViewer {
 	private EstimatorInterface loc;
 	private int sXCount, sYCount, tXCount, tYCount, tHCount;
 	private boolean runFlag, initFlag;
+	private double manhattan;
+	private double iterations=1;
+	private JLabel label1;
 	
 	public RobotLocalizationViewer( EstimatorInterface l) {
 		loc = l;
@@ -117,6 +121,7 @@ public class RobotLocalizationViewer {
 		});
 		
 		
+		label1 = new JLabel("Average Manhattan Distance: "+manhattan/iterations+"");
 		buttonPanel.add( initButton);
 		
 		buttonPanel.add( stepButton);
@@ -126,7 +131,7 @@ public class RobotLocalizationViewer {
 		modelButtonPanel.setLayout( new GridLayout( 2, 1));
 		modelButtonPanel.add( transButton);
 		modelButtonPanel.add( sensorButton);
-		
+		buttonPanel.add(label1);
 		
 		viewer.add( fieldPanel, BorderLayout.CENTER);
 		viewer.add( buttonPanel, BorderLayout.SOUTH);
@@ -153,6 +158,7 @@ public class RobotLocalizationViewer {
 
 	public synchronized void updateOneStep( ){		
 		if( initFlag) {
+			
 			loc.update();
 			int[] tXY = loc.getCurrentTruePosition();
 			int[] sXY = loc.getCurrentReading();
@@ -160,6 +166,7 @@ public class RobotLocalizationViewer {
 				updateViewer(  tXY[0], tXY[1], sXY[0], sXY[1]);	
 			else
 				updateViewer(  tXY[0], tXY[1], -1, -1);	
+			
 					
 		}
 	}
@@ -221,6 +228,13 @@ public class RobotLocalizationViewer {
 			states[maxX][maxY][1].setBackground(Color.lightGray);
 			states[maxX][maxY][2].setBackground(Color.lightGray);
 			states[maxX][maxY][3].setBackground(Color.lightGray);
+			manhattan += Math.abs(maxX-tX) + Math.abs(maxY-tY);
+			System.out.println(manhattan);
+			
+			System.out.println(iterations);
+			double avgManhattan= manhattan/iterations;
+			label1.setText("Average Manhattan Distance: "+avgManhattan+"");
+			iterations ++;
 		}
 			
 		states[tX][tY][4].setBackground(Color.black);

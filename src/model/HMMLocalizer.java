@@ -21,15 +21,20 @@ public class HMMLocalizer implements EstimatorInterface {
 	
 		
 		robotPosition = new int[2];
-		// Fixed seed for repeat (seed:1337)
-		generator = new Random(1337);
+		// Fixed seed for repeat (seed:1338)
+		generator = new Random(1338);
 		// generate random starting point for robot
 		int randX = generator.nextInt(rows);
 		int randY = generator.nextInt(cols);
 		// Set the robotposition to a random spot on the board
-		robotPosition[0] = randX;
-		robotPosition[1] = randY;
+		
+		//robotPosition[0] = randX;
+		//robotPosition[1] = randY;
 
+		robotPosition[0] = 0;
+		robotPosition[1] = 3;
+
+		
 		// Generate random Heading
 		int randHead = generator.nextInt(4);
 		head = randHead;
@@ -76,9 +81,9 @@ public class HMMLocalizer implements EstimatorInterface {
 		//observedMatrix.print(2, 3);
 		
 		Matrix temp =observedMatrix.times(T.transpose());
-		temp.print(2, 3);
+		//temp.print(2, 3);
 		Matrix res = temp.times(f);
-		res.print(2, 3);
+		//res.print(2, 3);
 		double[] f_sub = res.getMatrix(0, rows*cols*4-1,0,0).getRowPackedCopy();
 		//double tot=0;
 		//for(int i=0;i<f_sub.length;i++) {
@@ -99,7 +104,7 @@ public class HMMLocalizer implements EstimatorInterface {
 		Matrix f = new Matrix(size,size,prob);
 		return f;
 	}
-	void moveRobot() {
+	public void moveRobot() {
 		double prob = generator.nextDouble();
 		ArrayList<Integer> headings = availableNewHeadings(head, robotPosition[0], robotPosition[1]);
 
@@ -109,11 +114,11 @@ public class HMMLocalizer implements EstimatorInterface {
 			if (headings.indexOf(head) != -1) {
 				headings.remove(headings.indexOf(head));
 			}
-			int tempHead = generator.nextInt(headings.size() - 1);
+			int tempHead = generator.nextInt(headings.size());
 			head = headings.get(tempHead);
 			// if the new headings dont contains old head
 		} else if (!headings.contains(head)) {
-			int tempHead = generator.nextInt(headings.size() - 1);
+			int tempHead = generator.nextInt(headings.size());
 			head = headings.get(tempHead);
 		}
 
